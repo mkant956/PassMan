@@ -1,0 +1,2 @@
+create table command : 
+create table user_pass(id int(11) NOT NULL AUTO_INCREMENT,username varchar(80),password varchar(200),update_date DATE,PRIMARY KEY (id));

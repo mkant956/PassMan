@@ -1,1 +1,3 @@
 # PassMan
+A Password Manager.
+
