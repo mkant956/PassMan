@@ -6,6 +6,8 @@ import random
 from Crypto.Cipher import AES
 import base64
 
+from pyperclip import copy
+
 from crypter import *
 
 class dbEntry():
@@ -41,7 +43,7 @@ class dbEntry():
 		passw = getPasswordUsingAES(self.password,self.master_pass)
 		idx = passw.find('\x04')
 		passw = passw[:idx]
-
+		copy(passw)
 		return passw
 
 
@@ -49,4 +51,4 @@ if __name__ == '__main__':
 	entry = dbEntry()
 	entry.take_input()
 	entry.print_entry()
-	print entry.get_decrypted_password()
+	entry.get_decrypted_password()
