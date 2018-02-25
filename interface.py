@@ -10,12 +10,20 @@ from pyperclip import copy
 
 from crypter import *
 
+from utils import *
+
 class dbEntry():
 	def __init__(self):
 		self.website = None
 		self.username = None
 		self.password = None
 		self.master_pass = None
+
+	def prompt_UI(self):
+		print "1. Save a Password."
+		print "2. Copy a saved password"
+		print "3. Exit"
+
 	def print_entry(self):
 		print "Website description : %s " % self.website
 		print "Username : %s" % self.username
@@ -50,6 +58,18 @@ class dbEntry():
 
 if __name__ == '__main__':
 	entry = dbEntry()
-	entry.take_input()
-	entry.print_entry()
-	entry.get_decrypted_password()
+	entry.prompt_UI()
+	response = getch("Select option: ")
+	try:
+		response = int(response)
+	except Exception as e:
+		print "Enter valid input"
+	if(response == 1):
+		entry.take_input()
+		entry.print_entry()
+	elif(response == 2):
+		entry.get_decrypted_password()
+	elif(response == 3):
+		quit()
+	else:
+		print "Enter valid number"
