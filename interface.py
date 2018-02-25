@@ -44,6 +44,7 @@ class dbEntry():
 		idx = passw.find('\x04')
 		passw = passw[:idx]
 		copy(passw)
+		print "Password Copied in Clipboard ! "
 		return passw
 
 
