@@ -47,7 +47,8 @@ class dbEntry():
 		# print "Password : "
 		# self.password = raw_input(">")
 
-
+	# def get_search_entry(self):
+		
 	def get_decrypted_password(self):
 		if(self.master_pass == None):
 			self.master_pass = getpass("Master Password : > ")
