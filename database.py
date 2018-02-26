@@ -22,9 +22,10 @@ class database:
 			return r[0]
 
 	def getEntry(self,col_name,ref_string):
-		self.cur.execute("SELECT username,website,update_date FROM user_pass WHERE %s LIKE \""%col_name+"%"+"%s"%ref_string+"%"+"\"")
-		for r in self.cur.fetchall():
-			return r[0],r[1],r[2]
+		self.cur.execute("SELECT username,website,update_date,password FROM user_pass WHERE %s LIKE \""%col_name+"%"+"%s"%ref_string+"%"+"\"")
+		return self.cur.fetchall()
+		# for r in self.cur.fetchall():
+			# return r[0],r[1],r[2]
 
 	def __del__(self):
 		self.db.close()
@@ -47,5 +48,6 @@ dbs = database()
 # db.close()
 if __name__ == '__main__':
 	# dbs.tempFuncEntry()
-	username,website,update_date = dbs.getEntry("username","mkan")
-	print username,"|",website,"|",update_date
+	out = dbs.getEntry("username","mkan")
+	print out
+	# print username,"|",website,"|",update_date

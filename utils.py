@@ -28,5 +28,14 @@ def getch(prompt):
         fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
         return c
 
+def getint(prompt):
+    while True:
+            response = getch(prompt)
+            try:
+                response = int(response)
+                return response
+            except Exception as e:
+                print "Enter valid input"
+
 if __name__ == '__main__':
     print myGetch()

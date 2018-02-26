@@ -47,12 +47,45 @@ class dbEntry():
 		# print "Password : "
 		# self.password = raw_input(">")
 
-	# def get_search_entry(self):
+	def get_search_entry(self):
+		print "Search Password using: "
+		print "1. Website"
+		print "2. Username"
+
+		response = getint("Select option: ")
 		
-	def get_decrypted_password(self):
+		if(response == 1):
+			ref_string = raw_input("Search Website Query: ")
+			out = dbs.getEntry("website",ref_string)
+			i=1
+			for r in out:
+				print i,"|",r[0],"|",r[1],"|",r[2]
+				i=i+1
+			entry_no = getint("Select Password: ")
+			self.get_decrypted_password(out[entry_no-1][3])
+
+		elif(response == 2):
+			ref_string = raw_input("Search username Query: ")
+			out = dbs.getEntry("username",ref_string)
+			i=1
+			for r in out:
+				print i,"|",r[0],"|",r[1],"|",r[2]
+				i=i+1
+			entry_no = getint("Select Password: ")
+			self.get_decrypted_password(out[entry_no-1][3])
+		else:
+			print "Enter valid Input Number"
+
+
+	def get_decrypted_password(self,req_password):
 		if(self.master_pass == None):
-			self.master_pass = getpass("Master Password : > ")
-		passw = getPasswordUsingAES(self.password,self.master_pass)
+			temp_master_pass = getpass("Master Password: > ")
+			if setPasswordUsingAES(temp_master_pass) == getMasterPassword():
+				self.master_pass = temp_master_pass
+			else:
+				print "Incorrect Master Password"
+				quit()
+		passw = getPasswordUsingAES(req_password,self.master_pass)
 		idx = passw.find('\x04')
 		passw = passw[:idx]
 		copy(passw)
@@ -63,16 +96,13 @@ class dbEntry():
 if __name__ == '__main__':
 	entry = dbEntry()
 	entry.prompt_UI()
-	response = getch("Select option: ")
-	try:
-		response = int(response)
-	except Exception as e:
-		print "Enter valid input"
+	response = getint("Select option: ")
+
 	if(response == 1):
 		entry.take_input()
 		entry.print_entry()
 	elif(response == 2):
-		entry.get_decrypted_password()
+		entry.get_search_entry()
 	elif(response == 3):
 		quit()
 	else:
