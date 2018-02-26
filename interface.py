@@ -10,6 +10,8 @@ from pyperclip import copy
 
 from crypter import *
 
+from database import dbs
+
 from utils import *
 
 class dbEntry():
@@ -41,6 +43,7 @@ class dbEntry():
 		else:
 			print "Master Password Incorrect"
 			quit()
+		dbs.storeEntry(self)
 		# print "Password : "
 		# self.password = raw_input(">")
 

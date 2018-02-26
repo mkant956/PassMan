@@ -11,6 +11,11 @@ class database:
 		# Create a Cursor object to execute queries.
 		self.cur = self.db.cursor()
 
+	def storeEntry(self,obj):
+		self.cur.execute("INSERT INTO user_pass(username,password,update_date,website) \
+		 VALUES (\"%s\",\"%s\",CURDATE(),\"%s\")" % (obj.username,obj.password,obj.website))
+		self.db.commit()
+
 	def getMasterPassword(self):
 		self.cur.execute("SELECT * FROM masterpass")
 		for r in self.cur.fetchall():
@@ -18,6 +23,10 @@ class database:
 
 	def __del__(self):
 		self.db.close()
+
+	def tempFuncEntry(self):
+		self.cur.execute("INSERT INTO user_pass(username,password,update_date,website) VALUES (\"user1\",\"password1foruser1\",CURDATE(),\"h\") ")
+		self.db.commit()
 
 dbs = database()
 
@@ -31,3 +40,5 @@ dbs = database()
 #     print row[0], " ", row[1], " ", row[2], " ", row[3]
 # print getMasterPassword()
 # db.close()
+if __name__ == '__main__':
+	dbs.tempFuncEntry()

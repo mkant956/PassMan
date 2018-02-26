@@ -20,17 +20,18 @@ def getSecretKey(size = 16):
 	key = ''.join([random.choice(chars) for x in range(size)])
 	return key
 
-def fixLength(c,raw_password):
-	original_size = len(raw_password)
+def fixLength(c,input_text):
+	if(len(input_text) % 16 == 0):
+		return input_text
+	original_size = len(input_text)
 	final_size = (original_size/16 + 1)*16
-	return raw_password + c*(final_size - original_size)
+	return input_text + c*(final_size - original_size)
 
 
 def setPasswordUsingAES(raw_password,secret_key = '_master_password'):
 
 	# secret_key = getSecretKey(16)
-	if(len(raw_password) % 16 <> 0):
-		raw_password = fixLength(pad_char,raw_password)
+	raw_password = fixLength(pad_char,raw_password)
 	if(len(secret_key) % 16 <> 0):
 		secret_key = fixLength(pad_char,secret_key)
 	cipher = AES.new(secret_key,AES.MODE_ECB) # never use ECB in strong systems obviously
