@@ -3,16 +3,18 @@
 from getpass import getpass
 import random
 
-from Crypto.Cipher import AES
-import base64
+# from Crypto.Cipher import AES
+# import base64
 
 from pyperclip import copy
 
-from crypter import *
+# from pandas import DataFrame
 
-from database import dbs
+from src.crypter import *
 
-from utils import *
+from src.database import dbs
+
+from src.utils import *
 
 class dbEntry():
 	def __init__(self):
@@ -24,7 +26,8 @@ class dbEntry():
 	def prompt_UI(self):
 		print "1. Save a Password."
 		print "2. Copy a saved password"
-		print "3. Exit"
+		print "3. Check Database"
+		print "4. Exit"
 
 	def print_entry(self):
 		print "Website description : %s " % self.website
@@ -92,6 +95,13 @@ class dbEntry():
 		print "Password Copied in Clipboard ! "
 		return passw
 
+	def get_complete_info(self):
+		out = dbs.getCompleteInfo()
+		# DataFrame(out,columns=['S.No.','username','website'])
+		i=1
+		for r in out:
+			print i,r[0],r[1]
+			i=i+1
 
 if __name__ == '__main__':
 	entry = dbEntry()
@@ -103,7 +113,9 @@ if __name__ == '__main__':
 		entry.print_entry()
 	elif(response == 2):
 		entry.get_search_entry()
-	elif(response == 3):
+	elif(response ==3):
+		entry.get_complete_info()
+	elif(response == 4):
 		quit()
 	else:
 		print "Enter valid number"

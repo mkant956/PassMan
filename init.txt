@@ -3,3 +3,4 @@ create table user_pass(id int(11) NOT NULL AUTO_INCREMENT,username varchar(80),p
 
 create table masterpass(masterpassword varchar(128) not null);
 
+pip install pandas
