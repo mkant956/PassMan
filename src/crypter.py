@@ -14,6 +14,9 @@ def getMasterPassword():
 	master_pass = dbs.getMasterPassword()
 	return master_pass
 	# return "LV6uS0LrLaK9wWqrFEPTNg=="
+def authenticateUser(username):
+	password = dbs.getUserPassword(username)
+	return password
 
 def getSecretKey(size = 16):
 	chars = string.ascii_uppercase + string.digits + string.ascii_lowercase

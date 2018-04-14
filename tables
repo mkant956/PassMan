@@ -1,0 +1,2 @@
+create table Users(userid BIGINT AUTO_INCREMENT,username varchar(50) , password varchar(256), primary key(userid));
+
