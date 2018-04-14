@@ -12,16 +12,28 @@ class database:
 		self.cur = self.db.cursor()
 
 	def storeEntry(self,obj):
-		p = "INSERT INTO %s(username,password,update_date,website) \
-		 VALUES (\"%s\",\"%s\",CURDATE(),\"%s\")" % (obj.owner,obj.username,obj.password,obj.website)
-		print p
+		# p = "INSERT INTO %s(username,password,update_date,website) \
+		#  VALUES (\"%s\",\"%s\",CURDATE(),\"%s\")" % (obj.owner,obj.username,obj.password,obj.website)
+		# # print p
 		self.cur.execute("INSERT INTO %s(username,password,update_date,website) \
 		 VALUES (\"%s\",\"%s\",CURDATE(),\"%s\")" % (obj.owner,obj.username,obj.password,obj.website))
+		self.db.commit()
+
+	def updateEntry(self,obj,userid):
+		# p = "INSERT INTO %s(username,password,update_date,website) \
+		#  VALUES (\"%s\",\"%s\",CURDATE(),\"%s\")" % (obj.owner,obj.username,obj.password,obj.website)
+		# print p
+		self.cur.execute("UPDATE %s SET password=\"%s\" WHERE id=%s"%(obj.owner,obj.password,userid))
 		self.db.commit()
 
 	def storeUsers(self,obj):
 		self.cur.execute("INSERT INTO Users(username,password) \
 		 VALUES (\"%s\",\"%s\")" % (obj.username,obj.password))
+		self.db.commit()
+
+	def deleteUser(self,obj):
+		self.cur.execute("DROP TABLE %s"%obj.owner)
+		self.cur.execute("DELETE FROM Users WHERE username = \"%s\""%obj.owner)
 		self.db.commit()
 
 	def checkUser(self,obj):
@@ -33,7 +45,8 @@ class database:
 			return False
 
 	def createUserTable(self,obj):
-		self.cur.execute("create table if not exists %s(username varchar(80),password varchar(200),update_date DATE, website varchar(200),PRIMARY KEY(username));" % obj.username)
+		self.cur.execute("create table if not exists %s(id int(11) NOT NULL AUTO_INCREMENT,username varchar(80),password varchar(200),update_date DATE, website varchar(200),PRIMARY KEY(id));" % obj.username)
+		self.db.commit()
 
 	def getMasterPassword(self):
 		self.cur.execute("SELECT * FROM masterpass")
@@ -46,7 +59,7 @@ class database:
 			return r[2]
 
 	def getEntry(self,owner,col_name,ref_string):
-		self.cur.execute("SELECT username,website,update_date,password FROM %s WHERE %s LIKE \""%(owner,col_name)+"%"+"%s"%ref_string+"%"+"\"")
+		self.cur.execute("SELECT username,website,update_date,password,id FROM %s WHERE %s LIKE \""%(owner,col_name)+"%"+"%s"%ref_string+"%"+"\"")
 		return self.cur.fetchall()
 		# for r in self.cur.fetchall():
 			# return r[0],r[1],r[2]
